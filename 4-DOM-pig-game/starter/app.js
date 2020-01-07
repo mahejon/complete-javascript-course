@@ -9,28 +9,28 @@ GAME RULES:
 
 */
 
-var scores, activePlayer, roundScore, gamePlaying, rolls, playToScore;
+var scores, activePlayer, roundScore, gamePlaying, playToScore;
 
 init()
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
     
     if (gamePlaying) {
-        var dice = Math.floor(Math.random() * 6) + 1;
-        rolls.shift()
-        rolls.push(dice);
-        console.log(rolls);
-        
-        if ((rolls[0] + rolls[1]) === 12) {
+        var diceOne = Math.floor(Math.random() * 6) + 1;
+        var diceTwo = Math.floor(Math.random() * 6) + 1;
+
+    
+        if ((diceOne + diceTwo) === 12) {
             scores[activePlayer] = 0;
             document.querySelector('#score-' + activePlayer).textContent = 0;
-            resetRolls();
             nextPlayer();
 
-        } else if (dice !== 1) {
-            roundScore  += dice;
-            document.querySelector('.dice-1').style.display = 'block';
-            document.querySelector('.dice-1').src = 'dice-' + dice + '.png';
+        } else if (diceOne !== 1 && diceTwo !== 1) {
+            roundScore  += (diceOne + diceTwo);
+            document.querySelector('.dice-0').style.display = 'block';
+            document.querySelector('.dice-0').src = 'dice-' + diceOne + '.png';
+            document.querySelector('.dice-1').style.display = 'block'
+            document.querySelector('.dice-1').src = 'dice-' + diceTwo + '.png';
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
         } else {
             nextPlayer();
@@ -43,7 +43,6 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     if (gamePlaying) {
         scores[activePlayer] += roundScore;
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
-        resetRolls();
         
         if (scores[activePlayer] >= playToScore) {
             document.querySelector('#name-' + activePlayer).textContent = 'WINNER!';
@@ -68,7 +67,6 @@ function init() {
     roundScore = 0;
     gamePlaying = true;
     playToScore = 100;
-    resetRolls()
     
     document.querySelector('#score-0').textContent = 0;
     document.querySelector('#score-1').textContent = 0;
@@ -78,6 +76,7 @@ function init() {
     document.querySelector('.player-1-panel').classList.remove('winner');
     document.querySelector('.player-1-panel').classList.remove('active');
     document.querySelector('.player-0-panel').classList.add('active');
+    document.querySelector('.dice-0').style.display = 'none';
     document.querySelector('.dice-1').style.display = 'none';
     
 }
@@ -87,15 +86,11 @@ function nextPlayer() {
     document.getElementById('current-' + activePlayer).textContent = 0;
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
-    document.querySelector('.dice-1').style.display = 'none';
     roundScore = 0;
     activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
 
 }
 
-function resetRolls() {
-    rolls = [0, 0];
-}
 
 
 /* YOUR 3 CHALLENGES
