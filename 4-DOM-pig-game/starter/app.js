@@ -9,7 +9,7 @@ GAME RULES:
 
 */
 
-var scores, activePlayer, roundScore, gamePlaying, rolls;
+var scores, activePlayer, roundScore, gamePlaying, rolls, playToScore;
 
 init()
 
@@ -45,7 +45,7 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
         resetRolls();
         
-        if (scores[activePlayer] >= 100) {
+        if (scores[activePlayer] >= playToScore) {
             document.querySelector('#name-' + activePlayer).textContent = 'WINNER!';
             document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
             gamePlaying = false;
@@ -53,6 +53,10 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
             nextPlayer();
         };
     };
+});
+
+document.querySelector('.input').addEventListener('change', (event) => {
+    playToScore = event.target.value;
 });
 
 document.querySelector('.btn-new').addEventListener('click', init);
@@ -63,6 +67,7 @@ function init() {
     activePlayer = 0;
     roundScore = 0;
     gamePlaying = true;
+    playToScore = 100;
     resetRolls()
     
     document.querySelector('#score-0').textContent = 0;
